@@ -4,6 +4,7 @@ import com.burcu.bankingAPI.entity.Account;
 import com.burcu.bankingAPI.entity.Transfer;
 import com.burcu.bankingAPI.repository.AccountRepository;
 import com.burcu.bankingAPI.repository.TransferRepository;
+import com.burcu.bankingAPI.util.UUIDGeneratorUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +31,10 @@ public class TransferService {
         }
         Account sender = accountRepository.getAccountByUuid(from_account_uuid);
         Account receiver = accountRepository.getAccountByUuid(to_account_uuid);
-        Transfer transfer = new Transfer();
-        Long uuid = UUID.randomUUID().getMostSignificantBits()&Long.MAX_VALUE;
 
-        transfer.setId(uuid);
+        Transfer transfer = new Transfer();
+        Long uuid = UUIDGeneratorUtil.generateUUID();
+        transfer.setUuid(uuid);
         transfer.setAmount(amount);
         transfer.setTo_account_id(to_account_uuid);
         transfer.setFrom_account_id(from_account_uuid);
@@ -56,11 +57,6 @@ public class TransferService {
         }
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account currencies are different!");
  }
-    public void createTransfer(Transfer transfer){
-        Long uuid = UUID.randomUUID().getMostSignificantBits()&Long.MAX_VALUE;
-        transfer.setId(uuid);
-        transfer.setFlag(false);
-        transferRepository.save(transfer);
-    }
+
 
 }

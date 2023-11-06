@@ -2,6 +2,7 @@ package com.burcu.bankingAPI.controller;
 
 import com.burcu.bankingAPI.entity.Account;
 import com.burcu.bankingAPI.service.AccountService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,7 @@ public class AccountController {
         return accountService.depositMoney(amount,uuid);
     }
     @PutMapping("/withdraw/{amount}/{uuid}")
-    public String withdrawMoney(@PathVariable Long amount, @PathVariable Long uuid){
+    public String withdrawMoney(@PathVariable Long amount, @PathVariable Long uuid) throws JsonProcessingException {
         return accountService.withdrawMoney(amount,uuid);
     }
 

@@ -2,25 +2,35 @@ package com.burcu.bankingAPI.service;
 
 import com.burcu.bankingAPI.entity.Account;
 import com.burcu.bankingAPI.entity.Entry;
+import com.burcu.bankingAPI.entity.Transfer;
+import com.burcu.bankingAPI.listener.NetworkListener;
 import com.burcu.bankingAPI.repository.AccountRepository;
 import com.burcu.bankingAPI.repository.EntryRepository;
 
+import com.burcu.bankingAPI.repository.TransferRepository;
 import com.burcu.bankingAPI.util.UUIDGeneratorUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.transaction.Transactional;
+import org.hibernate.event.spi.PostInsertEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
+@Transactional
 public class AccountService {
+    @Autowired
+    private NetworkListener networkListener;
     private final AccountRepository accountRepository;
     private final  EntryRepository entryRepository;
 
-    public AccountService(AccountRepository accountRepository, EntryRepository entryRepository) {
+    private final TransferRepository transferRepository;
+
+    public AccountService(AccountRepository accountRepository, EntryRepository entryRepository,TransferRepository transferRepository) {
         this.accountRepository = accountRepository;
         this.entryRepository = entryRepository;
+        this.transferRepository = transferRepository;
     }
 
 
@@ -37,10 +47,12 @@ public class AccountService {
         return accountRepository.save(account);
     }
     public void createEntry(Entry entry){
-        Long uuid = UUIDGeneratorUtil.generateUUID();
-        entry.setUuid(uuid);
         entry.setFlag(false);
         entryRepository.save(entry);
+    }
+    public void createTransfer(Transfer transfer){
+        transfer.setFlag(false);
+        transferRepository.save(transfer);
     }
     public void updateAccount(Account account){
         Account tempAccount = accountRepository.getAccountByUuid(account.getUuid());
@@ -87,7 +99,7 @@ public class AccountService {
 
 
     @Transactional
-    public String withdrawMoney(Long amount, Long uuid) {
+    public String withdrawMoney(Long amount, Long uuid) throws JsonProcessingException {
         Account account = accountRepository.getAccountByUuid(uuid);
         if (account == null) {
             return "Wrong account id!";
@@ -101,11 +113,12 @@ public class AccountService {
         accountRepository.save(account);
 
 
-        Long entryId = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+        Long entryId = UUIDGeneratorUtil.generateUUID();
         Entry entry = new Entry();
-        entry.setId(entryId);
+        entry.setUuid(entryId);
         entry.setAccount_id(uuid);
         entry.setAmount(amount);
+        entry.setFlag(true);
         entryRepository.save(entry);
 
         return "Amount has been deducted successfully!";

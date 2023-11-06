@@ -9,10 +9,10 @@ import com.burcu.bankingAPI.repository.TransferRepository;
 import com.burcu.bankingAPI.util.JsonObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 
+@Transactional
 @Service
 public class SyncService {
 
@@ -38,6 +39,8 @@ public class SyncService {
     @Value("${location}")
     private String location;
 
+    @Value("${server.adress}")
+    private String serverAdress;
     @Autowired
     private AccountService accountService;
 
@@ -93,20 +96,20 @@ public class SyncService {
     public void syncTransfers(List<Transfer> transfers){
         for(Transfer transfer:transfers){
             if(transfer.getFlag().equals(true)){
-                transferService.createTransfer(transfer);
+                accountService.createTransfer(transfer);
             }
 
         }
     }
 
-    public void postData(String jsonData) throws JsonProcessingException {
+    public void postData(String jsonData) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> httpEntity = new HttpEntity<>(jsonData,headers);
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity("http://localhost:8080/sync/sync",
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(serverAdress,
                 httpEntity, String.class);
 
        // jsonParser(jsonData);

@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "857558ad-1851-40d1-a2ce-b3792321323f",
+		"name": "Banking API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2859908"
+	},
+	"item": [
+		{
+			"name": "Create Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"owner\": \"Zeliş Altınok\",\n  \"balance\": \"1222020\",\n  \"currency\": \"TL\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/accounts/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"accounts",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List All Accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/accounts/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"accounts",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Account By UUID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/accounts/3113748762064733353",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"accounts",
+						"3113748762064733353"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Account",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/accounts/6744435196416576774",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"accounts",
+						"6744435196416576774"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Withdraw Money",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/accounts/withdraw/400/3113748762064733353",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"accounts",
+						"withdraw",
+						"400",
+						"3113748762064733353"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deposit Money",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/accounts/add/90000/7896152962668054412",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"accounts",
+						"add",
+						"90000",
+						"7896152962668054412"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/transfer/20/2601026642077633134/5999554568058063943",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transfer",
+						"20",
+						"2601026642077633134",
+						"5999554568058063943"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sync Data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/sync/sync",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sync",
+						"sync"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sync",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"entries\": [\n        {\n            \"id\": 8,\n            \"account_id\": 7896152962668054412,\n            \"amount\": 90000,\n            \"uuid\": 7610480889055170147,\n            \"flag\": true\n        }\n    ],\n    \"transfers\": [\n        {\n            \"id\": 770759415770858969,\n            \"from_account_id\": 7896152962668054412,\n            \"to_account_id\": 7896152962668054411,\n            \"amount\": 300,\n            \"flag\": true\n        },\n        {\n            \"id\": 1415116692925726721,\n            \"from_account_id\": 7896152962668054412,\n            \"to_account_id\": 7896152962668054411,\n            \"amount\": 100,\n            \"flag\": true\n        },\n        {\n            \"id\": 3883499470985055601,\n            \"from_account_id\": 5999554568058063943,\n            \"to_account_id\": 2601026642077633134,\n            \"amount\": 20,\n            \"flag\": true\n        },\n        {\n            \"id\": 6889773569023035792,\n            \"from_account_id\": 13,\n            \"to_account_id\": 9,\n            \"amount\": 200,\n            \"flag\": true\n        }\n    ],\n    \"accounts\": [\n        {\n            \"id\": 11,\n            \"owner\": \"Zeliş Altınok\",\n            \"uuid\": 3113748762064733353,\n            \"balance\": 200,\n            \"currency\": \"TL\",\n            \"flag\": true\n        },\n        {\n            \"id\": 18,\n            \"owner\": \"Burcu Altınok\",\n            \"uuid\": 7896152962668054412,\n            \"balance\": 90200,\n            \"currency\": \"TL\",\n            \"flag\": true\n        },\n        {\n            \"id\": 21,\n            \"owner\": \"Burcu Altınok\",\n            \"uuid\": 5999554568058063943,\n            \"balance\": 580,\n            \"currency\": \"TL\",\n            \"flag\": true\n        },\n        {\n            \"id\": 22,\n            \"owner\": \"Ali Ahmet\",\n            \"uuid\": 2601026642077633134,\n            \"balance\": 320,\n            \"currency\": \"TL\",\n            \"flag\": true\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/sync/sync",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sync",
+						"sync"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
