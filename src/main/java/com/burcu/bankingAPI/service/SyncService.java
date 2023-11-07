@@ -42,9 +42,9 @@ public class SyncService {
     @Value("${server.adress}")
     private String serverAdress;
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
-    private TransferService transferService;
+    private final TransferService transferService;
 
 
     public SyncService(AccountService accountService,TransferService transferService) {
