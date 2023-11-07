@@ -44,7 +44,6 @@ public class SyncService {
 
     private AccountService accountService;
 
-
     private TransferService transferService;
 
 
