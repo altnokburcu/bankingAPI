@@ -13,11 +13,12 @@ localhost:8080/accounts/create
 ### Body
 raw (json)
 json
-`{
+```{
   "owner": "Zeliş Altınok",
   "balance": "1222020",
   "currency": "TL"
-}`
+}
+```
 
 # GET
 ## List All Accounts
@@ -63,7 +64,7 @@ localhost:8080/sync/sync
 raw (json)
 
 json
-` {
+``` {
     "entries": [
         {
             "id": 8,
@@ -137,5 +138,6 @@ json
             "flag": true
         }
     ]
-}`
+}
+```
 
