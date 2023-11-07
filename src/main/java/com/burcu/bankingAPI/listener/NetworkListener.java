@@ -14,9 +14,11 @@ import java.net.URL;
 @Component
 public class NetworkListener implements ApplicationListener<ApplicationReadyEvent> {
 
-
+    private final SyncService syncService;
     @Autowired
-    SyncService syncService;
+    public NetworkListener(SyncService syncService) {
+        this.syncService = syncService;
+    }
 
 
     private static boolean isNetworkAvailable() {

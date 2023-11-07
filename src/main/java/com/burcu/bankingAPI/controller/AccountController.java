@@ -3,6 +3,7 @@ package com.burcu.bankingAPI.controller;
 import com.burcu.bankingAPI.entity.Account;
 import com.burcu.bankingAPI.service.AccountService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,11 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    public AccountController(AccountService accountService){
-        this.accountService=accountService;
+    @Autowired
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
     }
+
     @PostMapping("/create")
     public Account createAccount(@RequestBody Account accounts) {
         return accountService.createAccount(accounts);

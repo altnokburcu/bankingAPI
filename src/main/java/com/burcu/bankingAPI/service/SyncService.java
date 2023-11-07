@@ -41,15 +41,16 @@ public class SyncService {
 
     @Value("${server.adress}")
     private String serverAdress;
-    @Autowired
+
     private AccountService accountService;
 
 
-    @Autowired
     private TransferService transferService;
 
 
-    public SyncService() {
+    public SyncService(AccountService accountService,TransferService transferService) {
+        this.accountService=accountService;
+        this.transferService=transferService;
     }
 
     public void processData() throws JsonProcessingException {

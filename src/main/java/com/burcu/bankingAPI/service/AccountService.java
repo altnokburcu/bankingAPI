@@ -3,7 +3,6 @@ package com.burcu.bankingAPI.service;
 import com.burcu.bankingAPI.entity.Account;
 import com.burcu.bankingAPI.entity.Entry;
 import com.burcu.bankingAPI.entity.Transfer;
-import com.burcu.bankingAPI.listener.NetworkListener;
 import com.burcu.bankingAPI.repository.AccountRepository;
 import com.burcu.bankingAPI.repository.EntryRepository;
 
@@ -11,8 +10,7 @@ import com.burcu.bankingAPI.repository.TransferRepository;
 import com.burcu.bankingAPI.util.UUIDGeneratorUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.transaction.Transactional;
-import org.hibernate.event.spi.PostInsertEvent;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -20,8 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class AccountService {
-    @Autowired
-    private NetworkListener networkListener;
     private final AccountRepository accountRepository;
     private final  EntryRepository entryRepository;
 
