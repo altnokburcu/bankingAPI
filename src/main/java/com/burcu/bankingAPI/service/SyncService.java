@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -103,6 +105,8 @@ public class SyncService {
     }
 
     public void postData(String jsonData) {
+        try{
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -112,14 +116,20 @@ public class SyncService {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(serverAdress,
                 httpEntity, String.class);
 
-       // jsonParser(jsonData);
         if(responseEntity.getStatusCode().is2xxSuccessful()){
             System.out.println(responseEntity.getBody());
         } else{
             System.out.println(responseEntity.getStatusCode());
+
         }
-
-
+        }
+        catch (HttpServerErrorException e) {
+            System.err.println("Server error: " + e.getStatusCode() + ", " + e.getStatusText());
+        } catch (RestClientException e) {
+            System.err.println("RestTemplate error: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Unexpected error: " + e.getMessage());
+        }
     }
     public List<Account> syncAccounts()  {
         return sourceAccountRepository.getAccountByFlag();

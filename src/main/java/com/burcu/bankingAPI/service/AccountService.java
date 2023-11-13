@@ -3,6 +3,7 @@ package com.burcu.bankingAPI.service;
 import com.burcu.bankingAPI.entity.Account;
 import com.burcu.bankingAPI.entity.Entry;
 import com.burcu.bankingAPI.entity.Transfer;
+import com.burcu.bankingAPI.exception.AccountDeletionException;
 import com.burcu.bankingAPI.repository.AccountRepository;
 import com.burcu.bankingAPI.repository.EntryRepository;
 
@@ -16,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional
 public class AccountService {
     private final AccountRepository accountRepository;
     private final  EntryRepository entryRepository;
@@ -64,20 +64,27 @@ public class AccountService {
     }
 
 
-    public String deleteAccount(Long uuid) {
-        if (accountRepository.getAccountByUuid(uuid).getBalance() == 0) {
-            accountRepository.deleteById(uuid);
-        } else {
-            return "The balance must be 0 for the account to be deleted.";
+    public String deleteAccount(Long uuid) throws AccountDeletionException {
+        Account account = accountRepository.getAccountByUuid(uuid);
+
+        if(account == null){
+            return "Account not found!";}
+        if (account.getBalance() == 0) {
+            accountRepository.deleteAccountByUuid(uuid);
+            return "Account has been deleted.";
         }
-        return "Account has been deleted.";
+        else {
+            throw new AccountDeletionException( "The balance must be 0 for the account to be deleted.");
+        }
     }
+
+
 
     @Transactional
     public String depositMoney(Long amount, Long uuid) {
         Account account = accountRepository.getAccountByUuid(uuid);
         if (account == null) {
-            return "Wrong account id!";
+            return "Account not found!";
         }
         account.setBalance(account.getBalance() + amount);
         account.setFlag(true);

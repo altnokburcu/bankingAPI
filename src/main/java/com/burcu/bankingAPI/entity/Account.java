@@ -3,6 +3,7 @@ package com.burcu.bankingAPI.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "account")
 public class Account {
 
 
