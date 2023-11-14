@@ -11,6 +11,9 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public Account(long uuid, int i) {
+    }
+
     public String getOwner() {
         return owner;
     }
